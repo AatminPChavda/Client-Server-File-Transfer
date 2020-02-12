@@ -1,5 +1,6 @@
 # Client-Server-File-Transfer
-This is a project that connects a server and client to transfer files along with messages
+This is a project based on socket programming that helps to connect a server and client to transfer files along with messages.
+It has a very simple UI which can be used to see how files are transferred from client to server.
 
 ## Steps Required to successfully run the program
 
