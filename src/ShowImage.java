@@ -7,10 +7,9 @@
 
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author RavenPC
- */
+
+// To show the image
+
 public class ShowImage extends javax.swing.JDialog {
 
     /**
