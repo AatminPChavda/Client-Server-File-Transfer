@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+//Required Libraries are imported here
 
 import data.Data;
 import java.io.File;
@@ -13,10 +14,7 @@ import java.net.Socket;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author RavenPC
- */
+
 public class Client extends javax.swing.JFrame {
 
     /**
@@ -134,8 +132,15 @@ public class Client extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //Data members of class Client
     private Socket socket;
     private ObjectOutputStream out;
+    
+    /*
+        Action performed by "Connect" button.
+        Enter your Name and IP Address and connnect to server.
+    */
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             socket = new Socket(txtIp.getText().trim(), 9999);
@@ -151,6 +156,12 @@ public class Client extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    /*
+        Action Performed by "Send" Button
+        Select file and send it to server
+    */
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             JFileChooser ch = new JFileChooser();
