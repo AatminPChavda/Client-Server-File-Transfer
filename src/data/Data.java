@@ -1,5 +1,7 @@
 package data;
 
+// Contents of the data.jar
+
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 
