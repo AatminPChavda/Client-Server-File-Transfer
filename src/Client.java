@@ -62,7 +62,7 @@ public class Client extends javax.swing.JFrame {
         txt.setRows(5);
         jScrollPane1.setViewportView(txt);
 
-        jButton2.setText("Send");
+        jButton2.setText("Select & Send");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
