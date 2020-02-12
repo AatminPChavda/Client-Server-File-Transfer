@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+//Required Libraries are imported here
 
 import data.Data;
 import java.io.FileOutputStream;
@@ -17,10 +18,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-/**
- *
- * @author RavenPC
- */
 public class Server extends javax.swing.JFrame {
 
     /**
@@ -134,6 +131,12 @@ public class Server extends javax.swing.JFrame {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private DefaultListModel mod = new DefaultListModel();
+    
+    /*
+        Action performed by "Start Server" Button.
+        Start a server using the button.
+    */
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         list.setModel(mod);
         new Thread(new Runnable() {
@@ -142,15 +145,18 @@ public class Server extends javax.swing.JFrame {
                 try {
                     server = new ServerSocket(9999);
                     txt.append("Server starting ...\n");
-                    Socket s = server.accept();
-                    in = new ObjectInputStream(s.getInputStream());
-                    Data data = (Data) in.readObject();
-                    String name = data.getName();
-                    txt.append("New client " + name + " has been connected ...\n");
-                    while (true) {
-                        data = (Data) in.readObject();
-                        mod.addElement(data);
-                        txt.append("Got a file ... \n");
+                    while(true)
+                    {
+                        try
+                        {
+                            Socket sa=server.accept();
+                            System.out.println("connetion established");
+                            ServerThread st =new ServerThread(sa);
+                            st.start();
+                        }
+                        catch (Exception oe) {
+                        JOptionPane.showMessageDialog(Server.this, oe, "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(Server.this, e, "Error", JOptionPane.ERROR_MESSAGE);
@@ -160,6 +166,8 @@ public class Server extends javax.swing.JFrame {
         }).start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    
     private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
         if (evt.getClickCount() == 2) {
             if (!list.isSelectionEmpty()) {
@@ -174,6 +182,40 @@ public class Server extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_listMouseClicked
 
+    //To provide multiple client single server
+    
+    public class ServerThread extends Thread
+    {
+        Socket s=null;
+        public ServerThread(Socket s1)
+        {
+            s=s1;
+        }
+        
+        public void run()
+        {
+            try
+            {
+                in = new ObjectInputStream(s.getInputStream());
+                Data data = (Data) in.readObject();
+                String name = data.getName();
+                txt.append("New client " + name + " has been connected ...\n");
+                    while (true) 
+                    {
+                        data = (Data) in.readObject();
+                        mod.addElement(data);
+                        txt.append("Got a file from "+ name + "... \n");
+                    }
+            }
+            catch(Exception ie)
+            {
+                System.out.println("socket close error");
+            }
+        }
+    }
+    
+    //Function to open image
+    
     private void open() {
         Data data = (Data) mod.getElementAt(list.getSelectedIndex());
         if (data.getStatus().equals("Image")) {
@@ -184,6 +226,8 @@ public class Server extends javax.swing.JFrame {
         }
     }
 
+    //Function to save a file
+    
     private void save() {
         Data data = (Data) mod.getElementAt(list.getSelectedIndex());
         JFileChooser ch = new JFileChooser();
